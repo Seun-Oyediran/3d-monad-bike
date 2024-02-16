@@ -1,58 +1,21 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useRef } from "react";
 import { Lights } from ".";
 import {
-  Box,
   CubeCamera,
   Environment,
   MeshReflectorMaterial,
   OrbitControls,
 } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { Color, Mesh, Vector3 } from "three";
+import { Mesh } from "three";
 import { EffectComposer, Noise } from "@react-three/postprocessing";
 import { BlendFunction } from "postprocessing";
 import { MonadBike, MonadBillboard } from "../models";
 
-const RandomBoxes = ({ color }: { color: Color }) => {
-  const [rotateX] = useState(Math.random());
-  const [rotateY] = useState(Math.random());
-  const [scale] = useState(Math.pow(Math.random(), 2) * 0.5 + 0.05);
-  const [position] = useState(() => {
-    const pos = new Vector3(
-      (Math.random() * 2 - 1) * 3,
-      Math.random() * 3.5,
-      (Math.random() * 2 - 1) * 10
-    );
-    if (pos.x > 0) {
-      pos.x += 2.5;
-    } else {
-      pos.x -= 2.5;
-    }
-
-    return pos;
-  });
-
-  const boxRef = useRef<Mesh | null>(null);
-
-  useFrame((_, delta) => {
-    boxRef.current!.rotation.x += rotateX * delta;
-    boxRef.current!.rotation.y += rotateY * delta;
-  });
-
-  return (
-    <mesh ref={boxRef} position={position} scale={scale}>
-      <Box args={[1, 1, 1]}>
-        <meshStandardMaterial color={color} envMapIntensity={1.5} />
-      </Box>
-    </mesh>
-  );
-};
-
 const Experience = () => {
   const bikeRef = useRef<Mesh | null>(null);
-  const [rotateY] = useState(Math.random());
 
-  useFrame((_, delta) => {
+  useFrame(() => {
     // bikeRef.current!.rotation.x += rotateX * delta;
     bikeRef.current!.rotation.y += 0.01;
   });
